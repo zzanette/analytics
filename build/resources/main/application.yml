@@ -1,0 +1,10 @@
+spring:
+  application:
+    group: agibank
+    name: analytics
+
+server:
+  port: 9090
+
+app:
+  homepath: ${HOMEPATH:${HOME}}
