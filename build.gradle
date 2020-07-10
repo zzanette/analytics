@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.3.1.RELEASE'
     id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+    id 'io.franzbecker.gradle-lombok' version '1.11'
     id 'java'
 }
 
@@ -13,9 +14,15 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
+ext {
+    lombokVersion = '1.18.12'
+}
 
+dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
 
     testImplementation 'junit:junit:4.12'
 }

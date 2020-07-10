@@ -4,7 +4,7 @@ spring:
     name: analytics
 
 server:
-  port: 9090
+  port: 8080
 
 app:
   homepath: ${HOMEPATH:${HOME}}
