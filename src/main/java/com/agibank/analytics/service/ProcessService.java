@@ -1,27 +1,47 @@
 package com.agibank.analytics.service;
 
-import com.agibank.analytics.domain.DataAnalytics;
+import com.agibank.analytics.config.ApplicationPropertiesConfig;
 import com.agibank.analytics.domain.DataType;
-import com.agibank.analytics.domain.Salesman;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 public class ProcessService {
 
-    private DataFileParserToMap dataFileParserToMap;
+  private CustomerDataParserService customerDataParserService;
+  private SaleDataParserService saleDataParserService;
+  private SalesmanDataParserService salesmanDataParserService;
+  private GenerateAnalysisService generateAnalysisService;
+  private FileParserService fileWriterService;
+  private ApplicationPropertiesConfig propertiesConfig;
 
-    @Autowired
-    public ProcessService(DataFileParserToMap dataFileParserToMap) {
-        this.dataFileParserToMap = dataFileParserToMap;
-    }
+  @Autowired
+  public ProcessService(
+          CustomerDataParserService customerDataParserService,
+          SaleDataParserService saleDataParserService,
+          SalesmanDataParserService salesmanDataParserService,
+          GenerateAnalysisService generateAnalysisService,
+          FileParserService fileWriterService,
+          ApplicationPropertiesConfig propertiesConfig) {
+    this.customerDataParserService = customerDataParserService;
+    this.saleDataParserService = saleDataParserService;
+    this.salesmanDataParserService = salesmanDataParserService;
+    this.generateAnalysisService = generateAnalysisService;
+    this.fileWriterService = fileWriterService;
+    this.propertiesConfig = propertiesConfig;
+  }
 
-    public void processAnalytics(Path file) {
-        var map = dataFileParserToMap.parseFile(file);
-        for (DataAnalytics salesman : map.get(DataType.SALESMAN)) {
-            System.out.println("Meu deus: " + ((Salesman) salesman).getName());
-        }
-    }
+  public void processAnalytics(Path file) {
+    var map = fileWriterService.parseFileToMap(file);
+    var lines =
+        generateAnalysisService.generateLineAnalyses(
+            customerDataParserService.parseCustomerFrom(map.get(DataType.CUSTOMER)),
+            saleDataParserService.parseSaleFrom(map.get(DataType.SALE)),
+            salesmanDataParserService.parseFrom(map.get(DataType.SALESMAN)));
+    var finalPath = Paths.get(propertiesConfig.getPathHomeOut().concat("/").concat(file.getFileName().toString()));
+    fileWriterService.writeFile(finalPath, lines);
+  }
 }
