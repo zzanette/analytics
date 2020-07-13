@@ -30,7 +30,8 @@ public class FileParserService {
             Files.write(path,
                     lines,
                     StandardCharsets.UTF_8,
-                    StandardOpenOption.TRUNCATE_EXISTING);
+                    StandardOpenOption.TRUNCATE_EXISTING,
+                    StandardOpenOption.CREATE_NEW);
         } catch (IOException e) {
             e.printStackTrace();
         }

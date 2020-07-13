@@ -2,6 +2,7 @@ package com.agibank.analytics.schedule;
 
 import com.agibank.analytics.config.ApplicationPropertiesConfig;
 import com.agibank.analytics.service.ProcessService;
+import com.agibank.analytics.service.ValidatePathFolderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -18,20 +19,20 @@ public class AnalyticsScheduler {
 
   private ProcessService processService;
   private ApplicationPropertiesConfig propertiesConfig;
+  private ValidatePathFolderService pathFolderService;
 
   @Autowired
-  public AnalyticsScheduler(
+  public AnalyticsScheduler(ValidatePathFolderService pathFolderService,
       ProcessService processService, ApplicationPropertiesConfig propertiesConfig) {
     this.processService = processService;
     this.propertiesConfig = propertiesConfig;
+    this.pathFolderService = pathFolderService;
   }
 
   @Scheduled(fixedRate = 1000)
   public void readFilesToAnalytics() {
-    validatePathFolder(Paths.get(propertiesConfig.getPathHomtData()));
-
     var homeInPath = Paths.get(propertiesConfig.getPathHomeIn());
-    validatePathFolder(homeInPath);
+    pathFolderService.validatePathFolder(homeInPath);
 
     try (var inPaths = Files.walk(homeInPath)) {
       inPaths
@@ -45,7 +46,7 @@ public class AnalyticsScheduler {
 
   private Boolean isInDataOutPath(Path inFile) {
     var homeOutPath = Paths.get(propertiesConfig.getPathHomeOut());
-    validatePathFolder(homeOutPath);
+    pathFolderService.validatePathFolder(homeOutPath);
 
     try (var outPaths = Files.walk(homeOutPath)) {
       return outPaths
@@ -56,12 +57,5 @@ public class AnalyticsScheduler {
     }
 
     return Boolean.FALSE;
-  }
-
-  private void validatePathFolder(Path path) {
-    var folder = new File(path.toString());
-    if (!folder.exists()) {
-      folder.mkdir();
-    }
   }
 }
