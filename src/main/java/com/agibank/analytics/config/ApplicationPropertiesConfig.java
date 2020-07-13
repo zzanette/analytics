@@ -41,8 +41,4 @@ public class ApplicationPropertiesConfig {
   public String getPathHomeOut() {
     return getHomepath().concat("/data/out");
   }
-
-  public String getPathHomtData() {
-    return getHomepath().concat("/data");
-  }
 }
