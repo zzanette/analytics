@@ -1,0 +1,7 @@
+
+app:
+  homepath: ${HOMEPATH:${HOME}}
+  delimiters:
+    column: ${COLUMN_DELIMITER:ç}
+    item: ${ITEM_DELIMITER:,}
+    property-item: ${PROPERTY_ITEM_DELIMITER:-}

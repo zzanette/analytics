@@ -3,6 +3,7 @@ package com.agibank.analytics.service;
 import com.agibank.analytics.domain.Salesman;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +12,7 @@ public class SalesmanDataParserService {
 
   public List<Salesman> parseFrom(List<String[]> salesmen) {
     if (salesmen == null) {
-      return null;
+      return new ArrayList<>();
     }
 
     return salesmen.stream()

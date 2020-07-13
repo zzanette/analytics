@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @Service
 public class CustomerDataParserService {
 
-  public List<Customer> parseCustomerFrom(List<String[]> customers) {
+  public List<Customer> parseFrom(List<String[]> customers) {
     if (customers == null) {
       return new ArrayList<>();
     }

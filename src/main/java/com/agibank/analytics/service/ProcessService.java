@@ -20,12 +20,12 @@ public class ProcessService {
 
   @Autowired
   public ProcessService(
-          CustomerDataParserService customerDataParserService,
-          SaleDataParserService saleDataParserService,
-          SalesmanDataParserService salesmanDataParserService,
-          GenerateAnalysisService generateAnalysisService,
-          FileParserService fileWriterService,
-          ApplicationPropertiesConfig propertiesConfig) {
+      CustomerDataParserService customerDataParserService,
+      SaleDataParserService saleDataParserService,
+      SalesmanDataParserService salesmanDataParserService,
+      GenerateAnalysisService generateAnalysisService,
+      FileParserService fileWriterService,
+      ApplicationPropertiesConfig propertiesConfig) {
     this.customerDataParserService = customerDataParserService;
     this.saleDataParserService = saleDataParserService;
     this.salesmanDataParserService = salesmanDataParserService;
@@ -38,10 +38,12 @@ public class ProcessService {
     var map = fileWriterService.parseFileToMap(file);
     var lines =
         generateAnalysisService.generateLineAnalyses(
-            customerDataParserService.parseCustomerFrom(map.get(DataType.CUSTOMER)),
-            saleDataParserService.parseSaleFrom(map.get(DataType.SALE)),
+            customerDataParserService.parseFrom(map.get(DataType.CUSTOMER)),
+            saleDataParserService.parseFrom(map.get(DataType.SALE)),
             salesmanDataParserService.parseFrom(map.get(DataType.SALESMAN)));
-    var finalPath = Paths.get(propertiesConfig.getPathHomeOut().concat("/").concat(file.getFileName().toString()));
-    fileWriterService.writeFile(finalPath, lines);
+    fileWriterService.writeFile(
+        Paths.get(
+            propertiesConfig.getPathHomeOut().concat("/").concat(file.getFileName().toString())),
+        lines);
   }
 }

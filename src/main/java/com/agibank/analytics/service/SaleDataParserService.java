@@ -19,7 +19,7 @@ public class SaleDataParserService {
     this.propertiesConfig = propertiesConfig;
   }
 
-  public List<Sale> parseSaleFrom(List<String[]> sales) {
+  public List<Sale> parseFrom(List<String[]> sales) {
     if (sales == null) {
       return new ArrayList<>();
     }

@@ -14,8 +14,7 @@ import java.util.Map;
 @Service
 public class GenerateAnalysisService {
 
-  public List<String> generateLineAnalyses(
-      List<Customer> customers, List<Sale> sales, List<Salesman> salesmen) {
+  public List<String> generateLineAnalyses(List<Customer> customers, List<Sale> sales, List<Salesman> salesmen) {
     var lines = new ArrayList<String>();
     generateCustomerAnalysis(lines, customers);
     generateSalesmanAnalysiis(lines, salesmen);
@@ -39,7 +38,7 @@ public class GenerateAnalysisService {
     salesmanOptional.ifPresent(sale -> lines.add("Most expensive sale: " + sale.getId()));
 
     Map<String, Float> salesPerSaleman = new HashMap<>();
-    sales.stream()
+    sales
         .forEach(
             sale -> {
               if (salesPerSaleman.get(sale.getSalesmanName()) == null) {
