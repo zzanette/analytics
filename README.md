@@ -4,7 +4,9 @@ Analytics is a Rest Service thats analysis data from files stored in *$HOMEPATH/
 ### File data struture
 ---
  **Salesman data format**: 001çCPFçNameçSalary
+ 
  **Customer data format:** 002çCNPJçNameçBusiness Area
+ 
  **Sales data format:** 003çSale IDç[Item ID-Item Quantity-Item Price]çSalesman name
 
 ```txt
