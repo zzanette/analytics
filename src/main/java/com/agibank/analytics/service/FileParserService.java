@@ -32,8 +32,7 @@ public class FileParserService {
                     StandardCharsets.UTF_8,
                     StandardOpenOption.TRUNCATE_EXISTING,
                     StandardOpenOption.CREATE_NEW);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 
