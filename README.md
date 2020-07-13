@@ -35,9 +35,9 @@ Return the file analysed.
 **POST** /files
 Content-Type=multipart/form-data;
 body:
-| key  |   value    |
-|------|------------|
-| file | <THE-FILE> |
+| key  |   value   |
+|------|-----------|
+| file | THE-FILE  |
 
 Post an file to be analysed.
 
