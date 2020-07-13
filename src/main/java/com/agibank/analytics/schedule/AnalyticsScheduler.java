@@ -30,10 +30,10 @@ public class AnalyticsScheduler {
   public void readFilesToAnalytics() {
     validatePathFolder(Paths.get(propertiesConfig.getPathHomtData()));
 
-    var inDir = Paths.get(propertiesConfig.getPathHomeIn());
-    validatePathFolder(inDir);
+    var homeInPath = Paths.get(propertiesConfig.getPathHomeIn());
+    validatePathFolder(homeInPath);
 
-    try (var inPaths = Files.walk(Paths.get(propertiesConfig.getPathHomeIn()))) {
+    try (var inPaths = Files.walk(homeInPath)) {
       inPaths
           .filter(Files::isRegularFile)
           .filter((path -> !isInDataOutPath(path)))
@@ -47,7 +47,7 @@ public class AnalyticsScheduler {
     var homeOutPath = Paths.get(propertiesConfig.getPathHomeOut());
     validatePathFolder(homeOutPath);
 
-    try (var outPaths = Files.walk(Paths.get(propertiesConfig.getPathHomeOut()))) {
+    try (var outPaths = Files.walk(homeOutPath)) {
       return outPaths
           .filter(Files::isRegularFile)
           .anyMatch(outFile -> outFile.getFileName().equals(inFile.getFileName()));
